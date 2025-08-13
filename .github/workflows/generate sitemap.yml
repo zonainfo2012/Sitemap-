@@ -1,0 +1,36 @@
+name: Generate Sitemap for GSC
+
+on:
+  workflow_dispatch: # Jalankan manual dari Actions
+  push:
+    branches:
+      - main # Jalankan otomatis jika ada perubahan di main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Buat sitemap.xml
+        run: |
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
+          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+          echo '  <url>' >> sitemap.xml
+          echo '    <loc>https://zonainfotips.blogspot.com/2025/08/para-penemu-yang-menyesali-penemuan-nya.html</loc>' >> sitemap.xml
+          echo '    <lastmod>2025-08-07T17:49:52Z</lastmod>' >> sitemap.xml
+          echo '  </url>' >> sitemap.xml
+          echo '</urlset>' >> sitemap.xml
+
+      - name: Upload sitemap ke repo
+        run: |
+          mkdir -p public
+          mv sitemap.xml public/
+        shell: bash
+
+      - name: Deploy ke GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
