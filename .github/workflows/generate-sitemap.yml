@@ -1,0 +1,32 @@
+name: Generate Sitemap for GSC
+
+on:
+  workflow_dispatch:  # bisa dijalankan manual
+  schedule:
+    - cron: '0 0 * * *'  # jalan otomatis tiap hari jam 00:00 UTC
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Generate sitemap.xml from Blogspot feed
+        run: |
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
+          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+          curl -s "https://zonainfotips.blogspot.com/feeds/posts/default?alt=json" \
+          | jq -r '.feed.entry[] | "  <url>\n    <loc>\(.link[] | select(.rel==\"alternate\").href)</loc>\n    <lastmod>\(.updated | sub(\"T\";\" \") | sub(\"Z\";\"\"))</lastmod>\n  </url>"' >> sitemap.xml
+          echo '</urlset>' >> sitemap.xml
+
+      - name: Commit and push sitemap.xml
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          git commit -m "Update sitemap.xml" || echo "No changes to commit"
+          git push
