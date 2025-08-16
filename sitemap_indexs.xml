@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+   <!-- Postingan 1-500 -->
+   <sitemap>
+      <loc>https://zonainfotips.blogspot.com/atom.xml?redirect=false&start-index=1&max-results=500</loc>
+   </sitemap>
+
+   <!-- Postingan 501-1000 -->
+   <sitemap>
+      <loc>https://zonainfotips.blogspot.com/atom.xml?redirect=false&start-index=501&max-results=500</loc>
+   </sitemap>
+
+   <!-- Postingan 1001-1500 -->
+   <sitemap>
+      <loc>https://zonainfotips.blogspot.com/atom.xml?redirect=false&start-index=1001&max-results=500</loc>
+   </sitemap>
+
+   <!-- Postingan 1501-2000 -->
+   <sitemap>
+      <loc>https://zonainfotips.blogspot.com/atom.xml?redirect=false&start-index=1501&max-results=500</loc>
+   </sitemap>
+
+</sitemapindex>
